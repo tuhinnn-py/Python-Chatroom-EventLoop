@@ -3,16 +3,15 @@ import select
 
 import socket
 import msvcrt
-#from server import IP_ADDR, PORT
+import threading
 
 IP_ADDR = socket.gethostbyname(socket.gethostname())
-PORT = 8000
+PORT = 5555
 HEADER_SIZE = 10
 
 class Connection():
     def __init__(self, default = (IP_ADDR, PORT)):
         self.client_conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #self.client_conn.settimeout(2.0)
         print(f"Trying to connect to {default[0]} : {default[1]}")
         self.client_conn.connect(default)
         
@@ -60,5 +59,15 @@ while True:
     readers, _, _ = select.select([connection], [], [], 1)
     if(msvcrt.kbhit()):
         readers.append(read_input)
+    
+    class Reader(threading.Thread):
+        def __init__(self, reader):
+            super().__init__()
+            self.reader = reader
+        def run(self):
+            self.reader.on_read()
+            
     for reader in readers:
         reader.on_read()
+        #new_reader = Reader(reader)
+        #new_reader.start()

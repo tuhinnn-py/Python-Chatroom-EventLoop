@@ -5,8 +5,6 @@ import msvcrt
 import socket
 
 IP_ADDR = socket.gethostbyname(socket.gethostname())
-#2402:3a80:196f:7308:680c:e889:dbf4:e225
-#2409:4060:e8c:451e:10eb:3b1e:a4e0:65ae
 PORT = 5555
 HEADER_SIZE = 10
 
